@@ -1,0 +1,15 @@
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\bin\Debug\net6.0\AOC_2022_8.exe
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\bin\Debug\net6.0\AOC_2022_8.deps.json
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\bin\Debug\net6.0\AOC_2022_8.runtimeconfig.json
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\bin\Debug\net6.0\AOC_2022_8.dll
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\bin\Debug\net6.0\AOC_2022_8.pdb
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.csproj.AssemblyReference.cache
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.AssemblyInfoInputs.cache
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.AssemblyInfo.cs
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.csproj.CoreCompileInputs.cache
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.dll
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\refint\AOC_2022_8.dll
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.pdb
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\AOC_2022_8.genruntimeconfig.cache
+C:\Users\kubat\source\repos\AoC\AOC_2022\AOC_2022\AOC_2022_8\obj\Debug\net6.0\ref\AOC_2022_8.dll
