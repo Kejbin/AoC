@@ -1,0 +1,5 @@
+C:\Users\JTr\source\repos\AOC\AoC\AOC_2022\AOC_2022\AOC_2022\obj\Debug\net6.0\AOC_2022.csproj.AssemblyReference.cache
+C:\Users\JTr\source\repos\AOC\AoC\AOC_2022\AOC_2022\AOC_2022\obj\Debug\net6.0\AOC_2022.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JTr\source\repos\AOC\AoC\AOC_2022\AOC_2022\AOC_2022\obj\Debug\net6.0\AOC_2022.AssemblyInfoInputs.cache
+C:\Users\JTr\source\repos\AOC\AoC\AOC_2022\AOC_2022\AOC_2022\obj\Debug\net6.0\AOC_2022.AssemblyInfo.cs
+C:\Users\JTr\source\repos\AOC\AoC\AOC_2022\AOC_2022\AOC_2022\obj\Debug\net6.0\AOC_2022.csproj.CoreCompileInputs.cache
