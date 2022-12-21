@@ -8,19 +8,24 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\JTr\\.nuget\\packages\\": {}
+    "C:\\Users\\kubat\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JTr\\source\\repos\\AOC\\AoC\\AOC_2022\\AOC_2022\\AOC_2022_11\\AOC_2022_11.csproj",
+      "projectUniqueName": "C:\\Users\\kubat\\source\\repos\\AoC\\AOC_2022\\AOC_2022\\AOC_2022_11\\AOC_2022_11.csproj",
       "projectName": "AOC_2022_11",
-      "projectPath": "C:\\Users\\JTr\\source\\repos\\AOC\\AoC\\AOC_2022\\AOC_2022\\AOC_2022_11\\AOC_2022_11.csproj",
-      "packagesPath": "C:\\Users\\JTr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JTr\\source\\repos\\AOC\\AoC\\AOC_2022\\AOC_2022\\AOC_2022_11\\obj\\",
+      "projectPath": "C:\\Users\\kubat\\source\\repos\\AoC\\AOC_2022\\AOC_2022\\AOC_2022_11\\AOC_2022_11.csproj",
+      "packagesPath": "C:\\Users\\kubat\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kubat\\source\\repos\\AoC\\AOC_2022\\AOC_2022\\AOC_2022_11\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\JTr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\kubat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -28,6 +33,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -61,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
