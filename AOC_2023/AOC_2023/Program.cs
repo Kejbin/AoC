@@ -5,11 +5,14 @@ if (!string.IsNullOrEmpty(dayNumber))
 {
     var day = DaySelector.GetDay(dayNumber);
 
-    var data = Console.ReadLine();
+    var path = Console.ReadLine();
+    var data = File.ReadAllText(path);
+
     if (!string.IsNullOrEmpty(data) && day != null)
     {
         var resp = day.Execute(data);
-        if (resp != null)
+
+        if (!string.IsNullOrEmpty(resp))
         {
             Console.WriteLine(resp.ToString());
         }

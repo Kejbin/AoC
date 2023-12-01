@@ -6,5 +6,15 @@
         {
             return "";
         }
+
+        public string PartOne(string data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string PartTwo(string data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
