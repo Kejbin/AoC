@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AOC_2023.DayWorkers;
 
 namespace AOC_2023
 {
@@ -12,6 +13,7 @@ namespace AOC_2023
         {
             "1" => new Day1(),
             "2" => new Day2(),
+            "3" => new Day3(),
             _ => null
         };
     }

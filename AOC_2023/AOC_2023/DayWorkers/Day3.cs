@@ -1,18 +1,18 @@
-﻿namespace AOC_2023
+﻿namespace AOC_2023.DayWorkers
 {
-    internal class Day2 : IDay
+    internal class Day3 : IDay
     {
         public string Execute(string data)
-        {
-            return "";
-        }
-
-        public string PartOne(string data)
         {
             throw new NotImplementedException();
         }
 
-        public string PartTwo(string data)
+        public string PartOne(object data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string PartTwo(object data)
         {
             throw new NotImplementedException();
         }
