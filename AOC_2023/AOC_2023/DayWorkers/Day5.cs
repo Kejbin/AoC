@@ -95,7 +95,7 @@ namespace AOC_2023.DayWorkers
                         }
 
                         if (value > min && skipCount != long.MaxValue && skipCount > 0)
-                            i += skipCount;
+                            i += skipCount - 1;
 
                         if (min > value) min = value;
                     }
