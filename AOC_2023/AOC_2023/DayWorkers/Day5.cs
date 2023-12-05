@@ -8,52 +8,58 @@ namespace AOC_2023.DayWorkers
 {
     internal class Day5 : IDay
     {
+        private List<List<(long Diff, long Start, long End)>> _map = new();
+
         public string Execute(string data)
         {
-            return PartOne(data) + "\r\n" + PartTwo(data);
+            var input = data.Split("\r\n");
+            var seeds = input[0].Split(' ')
+                                .Skip(1)
+                                .Select(c => Convert.ToInt64(c))
+                                .ToList();
+
+            _map = new List<List<(long Diff, long Start, long End)>>();
+            var list = new List<(long Diff, long Start, long End)>();
+            foreach (var item in input.Skip(2).Where(w => !string.IsNullOrEmpty(w)))
+            {
+                if (!Char.IsDigit(item[0]))
+                {
+                    list = new List<(long Diff, long Start, long End)>();
+                    _map.Add(list);
+                }
+                if (Char.IsDigit(item[0]))
+                {
+                    var coords = item.Split(' ')
+                                     .Select(s => Convert.ToInt64(s))
+                                     .ToArray();
+                    list.Add((coords[0] - coords[1], coords[1], coords[1] + coords[2]));
+                }
+            }
+
+            return PartOne(seeds) + "\r\n" + PartTwo(seeds);
         }
 
         public string PartOne(object data)
         {
-            long min = 0;
-            if (data is string str)
+            long min = long.MaxValue;
+            if (data is List<long> seeds)
             {
-                var input = str.Split("\r\n");
-                var seeds = input[0].Split(' ').Skip(1).Select(c => Convert.ToInt64(c));
-                var map = new List<List<(long Src, long Dest, long Range)>>();
-                var list = new List<(long Src, long Dest, long Range)>();
-                foreach (var item in input.Skip(2).Where(w => !string.IsNullOrEmpty(w)))
-                {
-                    if (!Char.IsDigit(item[0]))
-                    {
-                        list = new List<(long Src, long Dest, long Range)>(); ;
-                        map.Add(list);
-                    }
-                    if (Char.IsDigit(item[0]))
-                    {
-                        var coords = item.Split(' ').Select(s => Convert.ToInt64(s)).ToArray();
-                        list.Add((coords[0], coords[1], coords[2]));
-                    }
-                }
-
-                var locations = new List<long>();
                 foreach (var seed in seeds)
                 {
                     var value = seed;
-                    foreach (var m in map)
+                    foreach (var m in _map)
                     {
                         foreach (var coords in m)
-                            if (value >= coords.Dest && value <= coords.Dest + coords.Range)
+                            if (value >= coords.Start && value <= coords.End)
                             {
-                                value = value + coords.Src - coords.Dest;
+                                value = value + coords.Diff;
                                 break;
                             }
                     }
 
-                    locations.Add(value);
+                    if(min > value)
+                        min = value;
                 }
-
-                min = locations.Min();
             }
 
             return $"Result Part 1: {min}";
@@ -61,61 +67,39 @@ namespace AOC_2023.DayWorkers
 
         public string PartTwo(object data)
         {
-            long min = 0;
-            if (data is string str)
+            long min = long.MaxValue;
+            if (data is List<long> seeds)
             {
-                var input = str.Split("\r\n");
-                var initSeeds = input[0].Split(' ').Skip(1).Select(c => Convert.ToInt64(c)).ToArray();
-                var map = new List<List<(long Src, long Dest, long Range)>>();
-                var list = new List<(long Src, long Dest, long Range)>();
-                foreach (var item in input.Skip(2).Where(w => !string.IsNullOrEmpty(w)))
-                {
-                    if (!Char.IsDigit(item[0]))
-                    {
-                        list = new List<(long Src, long Dest, long Range)>(); ;
-                        map.Add(list);
-                    }
-                    if (Char.IsDigit(item[0]))
-                    {
-                        var coords = item.Split(' ').Select(s => Convert.ToInt64(s)).ToArray();
-                        list.Add((coords[0], coords[1], coords[2]));
-                    }
-                }
-
                 var pairs = new List<(long Start, long End)>();
 
-                for (int i = 0; i < initSeeds.Length; i += 2)
-                    pairs.Add((initSeeds[i],initSeeds[i + 1]));
+                for (int i = 0; i < seeds.Count; i += 2)
+                    pairs.Add((seeds[i], seeds[i] + seeds[i + 1] - 1));
 
-                var locations = new List<long>();
-                foreach (var pair in pairs) { 
-
-                    long lastMin = long.MaxValue;
-                    for (long j = pair.Start, loopTo = pair.End; j < loopTo; j++)
+                foreach (var pair in pairs)
+                {
+                    for (long i = pair.Start, loopTo = pair.End; i <= loopTo; i++)
                     {
-                        var value = j;
-                        for (int k = 0, loopToMap = map.Count(); k < loopToMap; k++)
+                        var value = i;
+                        long skipCount = long.MaxValue;
+                        foreach (var map in _map)
                         {
-                            for (int l = 0, loopToCoords = map[k].Count; l < loopToCoords; l++)
+                            foreach (var range in map)
                             {
-                                if (value >= map[k][l].Dest && value <= map[k][l].Dest + map[k][l].Range)
+                                if (range.Start <= value && range.End >= value)
                                 {
-                                    value = value + map[k][l].Src - map[k][l].Dest;
+                                    skipCount = Math.Min(range.End - value, skipCount);
+                                    value = value + range.Diff;
                                     break;
                                 }
                             }
-
                         }
 
-                        
-                        if (value < lastMin)
-                            lastMin = value;
+                        if (value > min && skipCount != long.MaxValue && skipCount > 0)
+                            i += skipCount;
+
+                        if (min > value) min = value;
                     }
-
-                    locations.Add(lastMin);
                 }
-
-                min = locations.Min();
             }
 
             return $"Result Part 2: {min}";
