@@ -47,33 +47,25 @@
             //Top 
             if (i > 0 && CheckOtherLine(arr[i - 1], j - 1, endNumberIndex + 1))
             {
-                var number1 = Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
-                sum += number1;
-
+                sum += Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
                 return;
             }
             //Left
             if (CheckSameLine(arr[i], j - 1))
             {
-                var number1 = Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
-                sum += number1;
-
+                sum += Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
                 return;
             }
             //Right
             if (CheckSameLine(arr[i], endNumberIndex + 1))
             {
-                var number1 = Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
-                sum += number1;
-
+                sum += Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
                 return;
             }
             //Bottom
             if (i < arr.Length - 1 && CheckOtherLine(arr[i + 1], j - 1, endNumberIndex + 1))
             {
-                var number1 = Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
-                sum += number1;
-
+                sum += Convert.ToInt32(arr[i].Substring(j, endNumberIndex - j + 1));
                 return;
             }
         }
@@ -83,11 +75,8 @@
             if (line.Length == i || i < 0)
                 return false;
 
-
             if (line[i] != '.')
-
                 return true;
-
 
             return false;
         }
@@ -103,10 +92,8 @@
                 from++;
 
             for (int i = from; i <= to; i++)
-            {
                 if (line[i] != '.')
                     return true;
-            }
 
             return false;
         }
@@ -118,14 +105,9 @@
             {
                 _visited = new bool[arr.Length, arr[0].Length]; 
                 for (int i = 0; i < arr.Length; i++)
-                {
                     for (int j = 0; j <  arr[i].Length; j++)
-                    {
                         if (arr[i][j] == '*')
                             sum += GetSurroundingNumbers(arr, i, j);
-                    }
-
-                }
             }
 
             return $"Result Part 2: {sum}";
@@ -135,26 +117,23 @@
         {
             List<int> numbers = new List<int>();
             //Top       
-            CheckForNumberLine(arr, i - 1, j - 1, j + 1, numbers);
+            CheckLineForNumbers(arr, i - 1, j - 1, j + 1, numbers);
             //Left
-            CheckForNumberLine(arr, i, j - 1, j - 1, numbers);
+            CheckLineForNumbers(arr, i, j - 1, j - 1, numbers);
             //Right
-            CheckForNumberLine(arr, i, j + 1, j + 1, numbers);
-            //Botto
-            CheckForNumberLine(arr, i + 1, j - 1, j + 1, numbers);
-
+            CheckLineForNumbers(arr, i, j + 1, j + 1, numbers);
+            //Bottom
+            CheckLineForNumbers(arr, i + 1, j - 1, j + 1, numbers);
 
             if (numbers.Count > 1) return numbers[0] * numbers[1];
             else return 0;
         }
 
-        private void CheckForNumberLine(string[] arr, int line, int from, int to, List<int> numbers)
+        private void CheckLineForNumbers(string[] arr, int line, int from, int to, List<int> numbers)
         {
             for(int i = from; i <= to; i++)
-            {
                 if (!_visited[line, i] && Char.IsDigit(arr[line][i]))
                    numbers.Add(GetNumber(arr, line, i));
-            }
         }
 
         private int GetNumber(string[] arr, int line, int foundIndex)
