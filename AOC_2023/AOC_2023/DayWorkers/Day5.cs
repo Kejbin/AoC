@@ -67,40 +67,48 @@ namespace AOC_2023.DayWorkers
 
         public string PartTwo(object data)
         {
-            long min = long.MaxValue;
+            long min = 0;
             if (data is List<long> seeds)
             {
-                var pairs = new List<(long Start, long End)>();
+                var pairs = new Queue<(long Start, long End)>();
 
                 for (int i = 0; i < seeds.Count; i += 2)
-                    pairs.Add((seeds[i], seeds[i] + seeds[i + 1] - 1));
+                    pairs.Enqueue((seeds[i], seeds[i] + seeds[i + 1] - 1));
 
-                foreach (var pair in pairs)
+                foreach (var map in _map)
                 {
-                    for (long i = pair.Start, loopTo = pair.End; i <= loopTo; i++)
-                    {
-                        var value = i;
-                        long skipCount = long.MaxValue;
-                        foreach (var map in _map)
+                    var newRanges = new Queue<(long Start, long End)>();
+                    while (pairs.Count > 0) {
+                        
+                        var pair = pairs.Dequeue();
+                        bool requeue = true;
+                        foreach (var range in map)
                         {
-                            foreach (var range in map)
-                            {
-                                if (range.Start <= value && range.End >= value)
-                                {
-                                    skipCount = Math.Min(range.End - value, skipCount);
-                                    value = value + range.Diff;
-                                    break;
-                                }
-                            }
+                            if (range.End < pair.Start || range.Start > pair.End)
+                                continue;
+
+                            requeue = false;
+
+                            if (pair.Start < range.Start)
+                                pairs.Enqueue(new(pair.Start, range.Start - 1)); //Right side without changes, add to same mapping section to check if that values are not overlapping other range
+
+                            if (pair.End > range.End)
+                                pairs.Enqueue(new(range.End + 1, pair.End)); //Left side without changes, add to same mapping section to check if that values are not overlapping other range
+
+                            newRanges.Enqueue(new(Math.Max(pair.Start, range.Start) + range.Diff, Math.Min(pair.End, range.End) + range.Diff)); //Process overlapping
                         }
 
-                        if (value > min && skipCount != long.MaxValue && skipCount > 0)
-                            i += skipCount - 1;
-
-                        if (min > value) min = value;
+                        if(requeue)
+                            newRanges.Enqueue(pair);
                     }
+               
+                    pairs = newRanges;
                 }
+
+                -000000min = pairs.Select(pair => pair.Start).Min();
             }
+
+            //Thank you programming guru P.L. for help 
 
             return $"Result Part 2: {min}";
         }
