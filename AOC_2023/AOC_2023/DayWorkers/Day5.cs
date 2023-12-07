@@ -105,7 +105,7 @@ namespace AOC_2023.DayWorkers
                     pairs = newRanges;
                 }
 
-                -000000min = pairs.Select(pair => pair.Start).Min();
+                min = pairs.Select(pair => pair.Start).Min();
             }
 
             //Thank you programming guru P.L. for help 

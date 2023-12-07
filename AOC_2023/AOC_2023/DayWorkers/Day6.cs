@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 
 namespace AOC_2023.DayWorkers
 {
@@ -15,6 +16,8 @@ namespace AOC_2023.DayWorkers
 
         public string Execute(string data)
         {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             var input = data.Split("\r\n").Select(x => x.Split(':')
                                                         .Last()
                                                         .Split(' ')
@@ -28,7 +31,7 @@ namespace AOC_2023.DayWorkers
             for (int i = 0; i < input.First().Count(); i++)
                 records.Add(new Mapping { Time = input.First()[i], Distance = input.Last()[i] });
 
-            return PartOne(records) + "\r\n" + PartTwo(records);
+            return PartOne(records) + "\r\n" + PartTwo(records) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
         public string PartOne(object data)
@@ -68,12 +71,8 @@ namespace AOC_2023.DayWorkers
                     Time = Convert.ToInt64(mapping.Select(s => s.Time.ToString()).Aggregate((a, b) => $"{a}{b}"))
                 };
 
-                var table = new List<Mapping>();
                 for (int i = 1; i < mergedMapping.Time; i++)
-                    table.Add(new Mapping { Time = i, Distance = i * (mergedMapping.Time - i) });
-
-                for (int i = 0; i < table.Count; i++)
-                    if (table[i].Distance > mergedMapping.Distance)
+                    if(i * (mergedMapping.Time - i) > mergedMapping.Distance)
                         min++;
             }
 
