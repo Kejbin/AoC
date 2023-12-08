@@ -69,7 +69,7 @@ namespace AOC_2023.DayWorkers
 
         public string PartTwo(object data)
         {
-            int sum = 0;
+            long sum = 0;
 
             if (data is List<List<string>> input)
             {
@@ -79,37 +79,36 @@ namespace AOC_2023.DayWorkers
                 List<Task<int>> tasks = new List<Task<int>>();
 
                 var endsWithA = crossroads.Where(s => s.Key.EndsWith('A')).Select(s => s.Key);
-                for (var i = 0; i < path.Length; i++)
-                {
-                    if (crossroads.TryGetValue(start, out Direction dir))
-                    {
-                        if (path[i] == 'L')
-                        {
-                            sum++;
+                foreach (var start in endsWithA)
+                    tasks.Add(Task.Run(() => Worker(start, crossroads, path)));
 
-                            if (dir.Left.EndsWith('Z'))
-                                break;
-
-                            start = dir.Left;
-                        }
-
-                        if (path[i] == 'R')
-                        {
-                            sum++;
-
-                            if (dir.Right.EndsWith('Z'))
-                                break;
-
-                            start = dir.Right;
-                        }
-                    }
-
-                    if (i == path.Length - 1)
-                        i = -1;
-                }
+                var res = Task.WhenAll(tasks).Result;
+                sum = GetLCM(res);
             }
 
             return $"Result Part 2: {sum}";
+        }
+
+        private long GetLCM(int[] res)
+        {
+            return res.Select(s => Convert.ToInt64(s)).Aggregate((a, b) => LCM(a,b));
+        }
+
+        private long LCM(long a, long b)
+        {
+            return a * b / GCF(a, b);
+        }
+
+        private long GCF(long a, long b)
+        {
+            while(b != 0)
+            {
+                var c = b;
+                b = a % b;
+                a = c;
+            }
+
+            return a;
         }
 
         public int Worker(string start, Dictionary<string, Direction> crossroads, string path) 
