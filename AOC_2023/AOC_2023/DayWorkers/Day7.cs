@@ -59,7 +59,10 @@ namespace AOC_2023.DayWorkers
             var stopWatch = Stopwatch.StartNew();
             stopWatch.Start();
 
-            var input = data.Split(Environment.NewLine).Where(s => !string.IsNullOrEmpty(s)).Select(s => s.Split(' ')).ToList();
+            var input = data.Split(Environment.NewLine)
+                            .Where(s => !string.IsNullOrEmpty(s))
+                            .Select(s => s.Split(' '))
+                            .ToList();
 
             return PartOne(input.ToList()) + "\r\n" + PartTwo(input.ToList()) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
@@ -114,7 +117,9 @@ namespace AOC_2023.DayWorkers
 
             if (part2 && chars.TryGetValue('J', out int amount))
             {
-                var orderedChars = chars.Where(w => w.Key != 'J').OrderByDescending(c => c.Value).ThenByDescending(o => _oderedCardsPt2.IndexOf(o.Key));
+                var orderedChars = chars.Where(w => w.Key != 'J')
+                                        .OrderByDescending(c => c.Value)
+                                        .ThenByDescending(o => _oderedCardsPt2.IndexOf(o.Key));
 
                 if (orderedChars.Any())
                 {
