@@ -10,6 +10,8 @@ namespace AOC_2023.DayWorkers
 {
     internal class Day10 : IDay
     {
+        private (int X, int Y) _start;
+
         public string Execute(string data)
         {
             var stopWatch = Stopwatch.StartNew();
@@ -22,16 +24,106 @@ namespace AOC_2023.DayWorkers
 
 
             var line = input.First(f => f.Contains('S'));
-            (int X, int Y) start;
-            start.X = input.IndexOf(line);
-            start.Y = Array.IndexOf(line, 'S');
 
-            return PartOne(data) + "\r\n" + PartTwo(data) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
+            _start.Y = input.IndexOf(line);
+            _start.X = Array.IndexOf(line, 'S');
+
+            return PartOne(input) + "\r\n" + PartTwo(data) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
         public string PartOne(object data)
         {
-            return $"Result Part 1: {data}";
+            int steps = 0;
+            if (data is List<char[]> input)
+            {
+                //Scan start path
+                var moves = new List<(int x, int y)> { (1, 0), (-1, 0), (0, 1), (0, -1) };
+                for (int i = 0; i < 4; i++)
+                {
+                    var x = moves[i].x + _start.X;
+                    var y = moves[i].y + _start.Y;
+
+                    var symb = input[y][x];
+                    if (_start.X > x && (symb != '-' && symb != 'F' && symb != 'L' || symb == '.'))
+                        continue;
+                    if (_start.X < x && (symb != '-' && symb != '7' && symb != 'J' || symb == '.'))
+                        continue;
+                    if (_start.Y > y && (symb != '|' && symb != 'F' && symb != '7' || symb == '.'))
+                        continue;
+                    if (_start.Y < y && (symb != '|' && symb != 'J' && symb != 'L' || symb == '.'))
+                        continue;
+
+                    if (Move(input, x, y, _start.X, _start.Y, ref steps))
+                        break;
+
+                    steps = 0;
+                }
+            }
+
+            return $"Result Part 1: {(steps + 1) / 2 }";
+        }
+
+        private bool Move(List<char[]> input, int x, int y, int lastX, int lastY, ref int steps)
+        {
+            while (input[y][x] != 'S') 
+            {
+                steps++;
+                if (x < 0 || y < 0 || y >= input.Count || input[0].Length <= x || input[y][x] == '.')
+                    return false;
+
+                var newX = x;
+                var newY = y;
+
+                if (input[y][x] == '|')
+                {
+                    if (y > lastY)
+                        newY = y + 1;
+                    else
+                        newY = y - 1;
+                }
+                else if (input[y][x] == '-')
+                {
+                    if (x > lastX)
+                        newX = x + 1;
+                    else
+                        newX = x - 1;
+                }
+                else if (input[y][x] == 'L')
+                {
+                    if (x != lastX)
+                        newY = y - 1;
+                    else
+                        newX = x + 1;
+                }
+                else if (input[y][x] == 'J')
+                {
+                    if (x != lastX)
+                        newY = y - 1;
+                    else
+                        newX = x - 1;
+                }
+                else if (input[y][x] == '7')
+                {
+                    if (x != lastX)
+                        newY = y + 1;
+                    else
+                        newX = x - 1;
+                }
+                else if (input[y][x] == 'F')
+                {
+                    if (x != lastX)
+                        newY = y + 1;
+                    else
+                        newX = x + 1;
+                }
+
+                lastX = x;
+                lastY = y;
+                x = newX;
+                y = newY;
+            }
+
+            return true;
         }
 
         public string PartTwo(object data)
