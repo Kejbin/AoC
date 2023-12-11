@@ -96,7 +96,7 @@ namespace AOC_2023.DayWorkers
 
         private long LCM(long a, long b)
         {
-            return a * b / GCF(a, b);
+            return a / GCF(a, b) * b;
         }
 
         private long GCF(long a, long b)

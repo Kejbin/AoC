@@ -14,13 +14,13 @@ namespace AOC_2023.DayWorkers
             HighCard,
             OnePair,
             TwoPair,
-            TheeOfAKind,
+            ThreeOfAKind,
             FullHouse,
             FourOfAKind,
             FiveOfAKind
         }
 
-        private List<char> _oderedCards = new List<char>
+        private List<char> _orderedCards = new List<char>
         {
             '2',
             '3',
@@ -37,7 +37,7 @@ namespace AOC_2023.DayWorkers
             'A'
         };
 
-        private List<char> _oderedCardsPt2 = new List<char>
+        private List<char> _orderedCardsPt2 = new List<char>
         {            
             'J',
             '2',
@@ -97,7 +97,7 @@ namespace AOC_2023.DayWorkers
             return -1;
         }
 
-        private int Power(char v, bool part2) => part2 ? _oderedCardsPt2.IndexOf(v) : _oderedCards.IndexOf(v);
+        private int Power(char v, bool part2) => part2 ? _orderedCardsPt2.IndexOf(v) : _orderedCards.IndexOf(v);
 
         private Sets GetSet(string v, bool part2)
         {
@@ -119,7 +119,7 @@ namespace AOC_2023.DayWorkers
             {
                 var orderedChars = chars.Where(w => w.Key != 'J')
                                         .OrderByDescending(c => c.Value)
-                                        .ThenByDescending(o => _oderedCardsPt2.IndexOf(o.Key));
+                                        .ThenByDescending(o => _orderedCardsPt2.IndexOf(o.Key));
 
                 if (orderedChars.Any())
                 {
@@ -141,7 +141,7 @@ namespace AOC_2023.DayWorkers
             else if (chars.Count == 3)
             {
                 if (chars.Any(c => c.Value > 2))
-                    return Sets.TheeOfAKind;
+                    return Sets.ThreeOfAKind;
 
                 return Sets.TwoPair;
             }
