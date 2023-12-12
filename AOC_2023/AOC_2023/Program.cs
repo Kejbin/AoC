@@ -10,6 +10,7 @@ if (!string.IsNullOrEmpty(dayNumber))
     var data = File.ReadAllText(path);
     //Test input
     //data = "..F7.\r\n.FJ|.\r\nSJ.L7\r\n|F--J\r\nLJ...";
+    data = "???.### 1,1,3\r\n.??..??...?##. 1,1,3\r\n?#?#?#?#?#?#?#? 1,3,1,6\r\n????.#...#... 4,1,1\r\n????.######..#####. 1,6,5\r\n?###???????? 3,2,1";
 
     if (!string.IsNullOrEmpty(data) && day != null)
     {
