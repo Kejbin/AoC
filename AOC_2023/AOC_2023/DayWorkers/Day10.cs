@@ -11,6 +11,8 @@ namespace AOC_2023.DayWorkers
     internal class Day10 : IDay
     {
         private (int X, int Y) _start;
+        private HashSet<(int x, int y)> _loop = new HashSet<(int x, int y)>();
+        private bool[,] _visited = new bool[0,0];
 
         public string Execute(string data)
         {
@@ -28,7 +30,7 @@ namespace AOC_2023.DayWorkers
             _start.Y = input.IndexOf(line);
             _start.X = Array.IndexOf(line, 'S');
 
-            return PartOne(input) + "\r\n" + PartTwo(data) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
+            return PartOne(input) + "\r\n" + PartTwo(input) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
         public string PartOne(object data)
@@ -53,6 +55,7 @@ namespace AOC_2023.DayWorkers
                     if (_start.Y < y && (symb != '|' && symb != 'J' && symb != 'L' || symb == '.'))
                         continue;
 
+                    _loop.Clear();
                     if (Move(input, x, y, _start.X, _start.Y, ref steps))
                         break;
 
@@ -68,6 +71,7 @@ namespace AOC_2023.DayWorkers
             while (input[y][x] != 'S') 
             {
                 steps++;
+                _loop.Add((x, y));
                 if (x < 0 || y < 0 || y >= input.Count || input[0].Length <= x || input[y][x] == '.')
                     return false;
 
@@ -128,7 +132,22 @@ namespace AOC_2023.DayWorkers
 
         public string PartTwo(object data)
         {
-            return $"Result Part 2: {data}";
+            int sum = 0;
+            if (data is List<char[]> input)
+            {
+                _visited = new bool[input.Count, input[0].Length];
+                for (int i = 0; i < input.Count; i++)
+                {
+                    for (int j = 0, loopTo = input[i].Length; j < loopTo; j++)
+                    {
+                        if (_visited[i, j])
+                            continue;
+
+
+                    }
+                }
+            }
+            return $"Result Part 2: {sum}";
         }
     }
 }

@@ -29,7 +29,56 @@ namespace AOC_2023.DayWorkers
             {
                 foreach (var pattern in input)
                 {
-                    
+                    var row = 0;
+                    var col = 0;
+                    for (int i = 0; i < pattern.Length; i++)
+                    {
+                        for (int j = pattern.Length - 1; j > i; j--)
+                        {
+                            if (pattern[i] == pattern[j])
+                                i++;
+                            else if(i != 0)
+                                break;
+
+                            if (j - 1 <= i)
+                                row = i;
+                        }
+
+                        if (row > 0)
+                            break;
+                    }
+
+                    List<List<char>> cols = new();
+                    for (int i = 0; i < pattern[0].Length; i++)
+                    {
+                        var colL = new List<char>();
+                        for (int j = 0; j < pattern.Length; j++)
+                            colL.Add(pattern[j][i]);
+
+                        cols.Add(colL);
+                    }
+
+                    for (int i = 0; i < cols.Count; i++)
+                    {
+                        for (int j = cols.Count - 1; j > i; j--)
+                        {
+                            if (cols[i].SequenceEqual(cols[j]))
+                                i++;
+                            else if(i != 0)
+                                break;
+
+                            if (j - 1 <= i)
+                                col = i;
+                        }
+
+                        if (col > 0)
+                            break;
+                    }
+
+                    if (row > 0)
+                        sum += 100 * row;
+                    else
+                        sum += col;
                 }
             }
 
