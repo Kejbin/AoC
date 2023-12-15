@@ -49,13 +49,13 @@ namespace AOC_2023.DayWorkers
                     if (split.Count() == 1)
                         split = item.Split('-');
 
-                    var box = boxes[HashAlgorithm(split[0])];
+                    var boxId = HashAlgorithm(split[0]);
+                    var box = boxes[boxId];
 
                     if (item.Contains('-'))
                     {
-                        var label = item.Substring(0, item.IndexOf('-'));
                         if (box.Any())
-                            box.RemoveAll(v => v.Contains(label));
+                            box.RemoveAll(v => v.Contains(split[0]));
 
                         continue;
                     }
@@ -63,17 +63,20 @@ namespace AOC_2023.DayWorkers
                     if (item.Contains("="))
                     {
                         //Replace lenses
-                        var label = item.Substring(0, item.IndexOf('='));
-                        foreach (var labelExisting in box.Where(c => c.Contains(label)).ToList())
+                        if (box.Any(c => c.Contains(split[0])))
                         {
-                            var i = box.IndexOf(labelExisting);
-                            box[i] = item;
+                            foreach (var labelExisting in box.Where(c => c.Contains(split[0])).ToList())
+                            {
+                                var i = box.IndexOf(labelExisting);
+                                box[i] = item;
+                            }
+
+                            continue;
                         }
 
                         //Add lenses
-                        if (!box.Any())
-                            box.Add(item);
-                        }
+                        box.Add(item);
+                    }
                 }
 
                 for (int i = 0; i < 256; i++)
