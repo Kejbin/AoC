@@ -29,23 +29,12 @@ namespace AOC_2023.DayWorkers
             {
                 foreach (var pattern in input)
                 {
-                    var row = 0;
-                    var col = 0;
-                    for (int i = 0; i < pattern.Length; i++)
+                    var row = Compare(pattern.Select(s => s.ToList()).ToList());
+
+                    if (row > 0)
                     {
-                        for (int j = pattern.Length - 1; j > i; j--)
-                        {
-                            if (pattern[i] == pattern[j])
-                                i++;
-                            else if(i != 0)
-                                break;
-
-                            if (j - 1 <= i)
-                                row = i;
-                        }
-
-                        if (row > 0)
-                            break;
+                        sum += 100 * row;
+                        continue;
                     }
 
                     List<List<char>> cols = new();
@@ -58,31 +47,35 @@ namespace AOC_2023.DayWorkers
                         cols.Add(colL);
                     }
 
-                    for (int i = 0; i < cols.Count; i++)
-                    {
-                        for (int j = cols.Count - 1; j > i; j--)
-                        {
-                            if (cols[i].SequenceEqual(cols[j]))
-                                i++;
-                            else if(i != 0)
-                                break;
-
-                            if (j - 1 <= i)
-                                col = i;
-                        }
-
-                        if (col > 0)
-                            break;
-                    }
-
-                    if (row > 0)
-                        sum += 100 * row;
-                    else
-                        sum += col;
+                    var col = Compare(cols);
+                    sum += col;
                 }
             }
 
             return $"Result Part 1: {sum}";
+        }
+
+        private int Compare(List<List<char>> pattern)
+        {
+            var res = 0;
+            for (int i = 0; i < pattern.Count; i++)
+            {
+                for (int j = i + 1; j < pattern.Count; j++)
+                {
+                    if (j < 0)
+                        break;   
+
+                    if (pattern[i].SequenceEqual(pattern[j]))
+                    {
+                        i++;
+                        j -= 2;
+                    }
+                    else if (i > 0)
+                        break;
+                }
+            }
+
+            return res;
         }
 
         public string PartTwo(object data)
