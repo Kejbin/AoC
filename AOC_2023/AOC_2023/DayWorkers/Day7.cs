@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day7 : IDay
+    internal class Day7 : Day
     {
         enum Sets
         {
@@ -54,7 +54,7 @@ namespace AOC_2023.DayWorkers
             'A'
         };
 
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var stopWatch = Stopwatch.StartNew();
             stopWatch.Start();
@@ -156,7 +156,7 @@ namespace AOC_2023.DayWorkers
                 return Sets.FiveOfAKind;
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             int sum = 0;
             if (data is List<string[]> input)
@@ -170,7 +170,7 @@ namespace AOC_2023.DayWorkers
             return $"Result Part 1: {sum}";
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             int sum = 0;
             if (data is List<string[]> input)

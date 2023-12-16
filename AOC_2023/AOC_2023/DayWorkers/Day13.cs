@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day13 : IDay
+    internal class Day13 : Day
     {
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var stopWatch = Stopwatch.StartNew();
             stopWatch.Start();
@@ -22,7 +22,7 @@ namespace AOC_2023.DayWorkers
             return PartOne(input) + "\r\n" + PartTwo(input) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             int sum = 0;
             if (data is string[][] input)
@@ -78,7 +78,7 @@ namespace AOC_2023.DayWorkers
             return res;
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             int sum = 0;
             if (data is string[][] input)

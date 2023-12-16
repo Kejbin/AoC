@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day6 : IDay
+    internal class Day6 : Day
     {
         private List<Mapping> _mapping = new() {
             new Mapping { Time = 1, Distance = 6 },
@@ -14,7 +14,7 @@ namespace AOC_2023.DayWorkers
             new Mapping { Time = 6, Distance = 6 },
         };
 
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -34,7 +34,7 @@ namespace AOC_2023.DayWorkers
             return PartOne(records) + "\r\n" + PartTwo(records) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             int min = 1;
 
@@ -59,7 +59,7 @@ namespace AOC_2023.DayWorkers
             return $"Result Part 1: {min}";
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             int min = 0;
 
@@ -82,6 +82,7 @@ namespace AOC_2023.DayWorkers
         private class Mapping {
             public long Time { get; set; }
             public long Distance { get; set; }
+
         }
         
     }

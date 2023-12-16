@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day11 : IDay
+    internal class Day11 : Day
     {
         private List<Coord> _coordList = new List<Coord>();
 
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var stopWatch = Stopwatch.StartNew();
             stopWatch.Start();
@@ -24,7 +24,7 @@ namespace AOC_2023.DayWorkers
             return PartOne(input) + "\r\n" + PartTwo(input) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             long sum = 0;
             if (data is List<List<char>> inp)
@@ -87,7 +87,7 @@ namespace AOC_2023.DayWorkers
             return $"Result Part 1: {sum}";
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
            _coordList.Clear();
 

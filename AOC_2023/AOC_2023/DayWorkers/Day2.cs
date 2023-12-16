@@ -2,9 +2,9 @@
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day2 : IDay
+    internal class Day2 : Day
     {
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             int gameIterator = 1;
             var games = new List<Game>();
@@ -39,7 +39,7 @@ namespace AOC_2023.DayWorkers
 
             return PartOne(games) + "\r\n" + PartTwo(games);
         }
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             if (data is List<Game> games) 
                 return $"Result Part 1: {games.Where(g => g.Sets.All(s => s.Reds <= 12 && s.Greens <= 13 && s.Blues <= 14)).Select(s => s.Id).Sum()}";
@@ -47,7 +47,7 @@ namespace AOC_2023.DayWorkers
             return "";
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             int sum = 0;
             if (data is List<Game> games)

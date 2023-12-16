@@ -8,13 +8,13 @@ using System.Xml.Linq;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day10 : IDay
+    internal class Day10 : Day
     {
         private (int X, int Y) _start;
         private HashSet<(int x, int y)> _loop = new HashSet<(int x, int y)>();
         private bool[,] _visited = new bool[0,0];
 
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var stopWatch = Stopwatch.StartNew();
             stopWatch.Start();
@@ -33,7 +33,7 @@ namespace AOC_2023.DayWorkers
             return PartOne(input) + "\r\n" + PartTwo(input) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             int steps = 0;
             if (data is List<char[]> input)
@@ -130,7 +130,7 @@ namespace AOC_2023.DayWorkers
             return true;
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             int sum = 0;
             if (data is List<char[]> input)

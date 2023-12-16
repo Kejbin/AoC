@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day8 : IDay
+    internal class Day8 : Day
     {
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var stopWatch = Stopwatch.StartNew();
             stopWatch.Start();
@@ -24,7 +24,7 @@ namespace AOC_2023.DayWorkers
 
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             int sum = 0;
 
@@ -36,7 +36,7 @@ namespace AOC_2023.DayWorkers
                 var curentCrossroad = "AAA";
                 for (var i = 0; i < path.Length; i++)
                 {
-                    if (crossroads.TryGetValue(curentCrossroad, out Direction dir))
+                    if (crossroads.TryGetValue(curentCrossroad, out Direction? dir))
                     {
                         if (path[i] == 'L')
                         {
@@ -67,7 +67,7 @@ namespace AOC_2023.DayWorkers
             return $"Result Part 1: {sum}";
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             long sum = 0;
 
@@ -116,7 +116,7 @@ namespace AOC_2023.DayWorkers
             int sum = 0;
             for (var i = 0; i < path.Length; i++)
             {
-                if (crossroads.TryGetValue(start, out Direction dir))
+                if (crossroads.TryGetValue(start, out Direction? dir))
                 {
                     if (path[i] == 'L')
                     {

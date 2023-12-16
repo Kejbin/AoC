@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day1 : IDay
+    internal class Day1 : Day
     {
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             return PartOne(data) + "\r\n" + PartTwo(data);
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             int sum = 0;
             if (data is string str)
@@ -36,7 +36,7 @@ namespace AOC_2023.DayWorkers
 
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             string[] numbers = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "zero", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             int sum = 0;

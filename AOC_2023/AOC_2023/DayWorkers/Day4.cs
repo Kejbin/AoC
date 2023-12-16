@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day4 : IDay
+    internal class Day4 : Day
     {
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             return PartOne(data) + "\r\n" + PartTwo(data);
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             int sum = 0;
 
@@ -48,7 +48,7 @@ namespace AOC_2023.DayWorkers
             return $"Result Part 1: {sum}";
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             int sum = 0;
 

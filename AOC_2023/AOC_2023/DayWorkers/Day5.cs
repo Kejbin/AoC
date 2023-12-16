@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day5 : IDay
+    internal class Day5 : Day
     {
         private List<List<(long Diff, long Start, long End)>> _map = new();
 
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var input = data.Split("\r\n");
             var seeds = input[0].Split(' ')
@@ -39,7 +39,7 @@ namespace AOC_2023.DayWorkers
             return PartOne(seeds) + "\r\n" + PartTwo(seeds);
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             long min = long.MaxValue;
             if (data is List<long> seeds)
@@ -65,7 +65,7 @@ namespace AOC_2023.DayWorkers
             return $"Result Part 1: {min}";
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             long min = 0;
             if (data is List<long> seeds)
