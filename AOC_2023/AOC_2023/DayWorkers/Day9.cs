@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
 {
-    internal class Day9 : IDay
+    internal class Day9 : Day
     {
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var stopWatch = Stopwatch.StartNew();
             stopWatch.Start();
@@ -30,7 +30,7 @@ namespace AOC_2023.DayWorkers
             return PartOne(part1) + "\r\n" + PartTwo(part2) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
-        public string PartOne(object data)
+        protected override string PartOne(object data)
         {
             return $"Result Part 1: {data}";
         }
@@ -49,7 +49,7 @@ namespace AOC_2023.DayWorkers
             return (predictions.Part1 + values.Last(), values.First() - predictions.Part2);
         }
 
-        public string PartTwo(object data)
+        protected override string PartTwo(object data)
         {
             return $"Result Part 2: {data}";
         }

@@ -1,17 +1,17 @@
 ﻿namespace AOC_2023.DayWorkers
 {
-    internal class Day3 : IDay
+    internal class Day3 : Day
     {
-        private bool[,] _visited;
+        private bool[,] _visited = new bool[0,0];
 
-        public string Execute(string data)
+        public override string Execute(string data)
         {
             var arr = data.Split("\r\n");
 
             return PartOne(arr) + "\r\n" + PartTwo(arr);
         }
 
-        public string PartOne(object obj)
+        protected override string PartOne(object obj)
         {
             int sum = 0;
 
@@ -98,7 +98,7 @@
             return false;
         }
 
-        public string PartTwo(object obj)
+        protected override string PartTwo(object obj)
         {
             int sum = 0;
             if (obj is string[] arr)

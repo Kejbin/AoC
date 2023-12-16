@@ -9,7 +9,7 @@ namespace AOC_2023
 {
     public static class DaySelector
     {
-        public static IDay? GetDay(string day) => day switch
+        public static Day? GetDay(string day) => day switch
         {
             "1" => new Day1(),
             "2" => new Day2(),
@@ -22,6 +22,12 @@ namespace AOC_2023
             "9" => new Day9(),
             "10" => new Day10(),
             "11" => new Day11(),
+            "12" => new Day12(),
+            "13" => new Day13(),
+            "14" => new Day14(),
+            "15" => new Day15(),
+            "16" => new Day16(),
+            "17" => new Day17(),
             _ => null
         };
     }
