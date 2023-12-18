@@ -28,6 +28,7 @@ namespace AOC_2023
             "15" => new Day15(),
             "16" => new Day16(),
             "17" => new Day17(),
+            "18" => new Day18(),
             _ => null
         };
     }
