@@ -12,7 +12,6 @@ namespace AOC_2023.DayWorkers
     {
         private (int X, int Y) _start;
         private List<(int x, int y)> _loop = new List<(int x, int y)>();
-        private bool[,] _visited = new bool[0,0];
 
         public override string Execute(string data)
         {
@@ -132,23 +131,21 @@ namespace AOC_2023.DayWorkers
 
         protected override string PartTwo(object data)
         {
-            int sum = 0;
-            if (data is List<char[]> input)
+            int sum;
+            var area = 0;
+            var j = _loop.Count - 1;
+
+            for (var i = 0; i < _loop.Count; i++)
             {
-                var area = 0;
-                var j = _loop.Count - 1;
-
-                for (var i = 0; i < _loop.Count; i++)
-                {
-                    area += (_loop[j].x + _loop[i].x) * (_loop[j].y - _loop[i].y);
-                    j = i;
-                }
-
-                area = Math.Abs(area) / 2;
-
-                //Pick's theorem //Thanks again to programing Guru
-                sum = area + 1 - _loop.Count / 2; //Somehow for input from file it's to high by 1;
+                area += (_loop[j].x + _loop[i].x) * (_loop[j].y - _loop[i].y);
+                j = i;
             }
+
+            area = Math.Abs(area) / 2;
+
+            //Pick's theorem //Thanks again to programing Guru
+            sum = area + 1 - _loop.Count / 2; //Somehow for input from file it's to high by 1;
+
             return $"Result Part 2: {sum}";
         }
     }
