@@ -89,10 +89,69 @@ namespace AOC_2023.DayWorkers
 
         protected override string PartTwo(object data)
         {
-            int sum = 0;
+            long sum = 0;
             if (data is Dictionary<string, List<Rule>> Rules)
             {
-                //TODO Work on ranges
+                var parts = new Queue<List<(char Category, long Start, long End)>>();
+
+                parts.Enqueue(new List<(char Category, long Start, long End)>
+                    {
+                        ('x', 1, 4000),
+                        ('m', 1, 4000),
+                        ('a', 1, 4000),
+                        ('s', 1, 4000),
+                    });
+
+                while (parts.Count > 0)
+                {
+                    var part = parts.Dequeue();
+                    string res = "in";
+                    var rule = Rules[res];
+                    while (res != "A" && res != "R")
+                    {
+                        for (int i = 0; i < rule.Count; i++)
+                        {
+                            res = rule[i].Result;
+
+                            if (res == "R")
+                                break;
+
+                            if (i == rule.Count - 1)
+                                break;
+
+                            var partValue = part.First(p => p.Category == rule[i].Category);
+                            if (rule[i].Operator == '>' && partValue.Start > rule[i].Value)
+                                break;
+                            else
+                            {
+                                var p = part.ToList();
+                                p.Remove(partValue);
+                                p.Add((partValue.Category, partValue.Start, rule[i].Value - 1));
+                                parts.Enqueue(p);
+                            }
+
+                            if (rule[i].Operator == '<' && partValue.End < rule[i].Value)
+                                break;
+                            else
+                            {
+                                var p = part.ToList();
+                                p.Remove(partValue);
+                                p.Add((partValue.Category, rule[i].Value + 1, partValue.End));
+                                parts.Enqueue(p);
+                            }
+
+                        }
+
+                        //select new rule
+                        if (res != "A" && res != "R")
+                            rule = Rules[res];
+                    }
+
+                    if (res == "A")
+                        sum += part.Select(s => s.End - s.Start).Sum();
+                }
+
+            
             }
 
             return $"Result Part 2: {sum}";

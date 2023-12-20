@@ -14,80 +14,85 @@ namespace AOC_2023.DayWorkers
                             .Where(s => !string.IsNullOrEmpty(s))
                             .ToList();
 
-            return PartOne(input) + "\r\n" + PartTwo(input) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
+            Dictionary<string, IModule> modules = new Dictionary<string, IModule>();
+            string[] broadcaster = new string[1];
+            foreach (var item in input)
+            {
+                var s = item.Split(" -> ");
+                if (item.StartsWith("broadcaster"))
+                {
+                    broadcaster = s[1].Split(',').Select(t => t.Trim()).ToArray();
+                    continue;
+                }
+
+                if (item.StartsWith("%"))
+                {
+                    modules.Add(s[0].Substring(1), new FlipFlop(s[1].Split(',').Select(t => t.Trim()).ToArray()));
+                    continue;
+                }
+
+                if (item.StartsWith("&"))
+                {
+                    var mod = new Conjunction(s[1].Split(',').Select(t => t.Trim()).ToArray());
+                    mod.SetInputs(input.Where(w => w.Split(" -> ")[1]
+                                                    .Split(',')
+                                                    .Contains(s[0].Substring(1)))
+                                       .Select(ss => ss.Split(" -> ")[0].Substring(1)));
+                    modules.Add(s[0].Substring(1), mod);
+                }
+            }
+
+            return PartOne((broadcaster, modules)) + "\r\n" + PartTwo((broadcaster, modules)) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
         protected override string PartOne(object data)
         {
             int sum = 0;
-            if (data is List<string> input)
+            if (data is (string[] broadcaster, Dictionary<string, IModule> modules))
             {
-                Dictionary<string, IModule> modules = new Dictionary<string, IModule>();
-                string[] broadcaster = new string[1];
-                foreach (var item in input)
-                {
-                    var s = item.Split(" -> ");
-                    if (item.StartsWith("broadcaster"))
-                    {
-                        broadcaster = s[1].Split(',').Select(t => t.Trim()).ToArray();
-                        continue;
-                    }
-
-                    if (item.StartsWith("%"))
-                    {
-                        modules.Add(s[0].Substring(1), new FlipFlop(s[1].Split(',').Select(t => t.Trim()).ToArray()));
-                        continue;
-                    }
-
-                    if (item.StartsWith("&"))
-                    {
-                        var mod = new Conjunction(s[1].Split(',').Select(t => t.Trim()).ToArray());
-                        mod.SetInputs(input.Where(w => w.Split(" -> ")[1].Split(',').Contains(s[0].Substring(1))));
-                        modules.Add(s[0].Substring(1), mod);
-                    }
-                }
-
-                List<List<Pulse>> p = new List<List<Pulse>>(); 
+                List<(int H, int L)> p = new List<(int, int)>();
                 for (int i = 0; i < 1000; i++)
                 {
-                    List<Pulse> pulses = new List<Pulse>();
-                    Pulse pulse = Pulse.Low;
-                    pulses.Add(pulse);
-                    foreach (var item in broadcaster)
+                    (int H, int L) pulses = (0,1);
+                    Queue<(string Module, string PrevModule, Pulse Pulse)> mods = new Queue<(string, string, Pulse)>(broadcaster.Select(s => (s, "", Pulse.Low)));
+                    while (mods.Count > 0)
                     {
-                        Process(item, "", pulse, modules, pulses, item);
+                        var mod = mods.Dequeue();
+
+                        if (mod.Pulse == Pulse.Low)
+                            pulses.L++;
+                        else
+                            pulses.H++;
+
+                        if (!modules.ContainsKey(mod.Module))
+                            continue;
+
+                        var module = modules[mod.Module];
+
+                        Pulse pulse;
+                        if (module is Conjunction)
+                            module.ProcessIncomingPulse((mod.PrevModule, mod.Pulse), out pulse);
+                        else if (module.ProcessIncomingPulse(mod.Pulse, out pulse))
+                            continue;
+
+                        foreach (var item in module.NextModules)
+                            mods.Enqueue((item, mod.Module, pulse));
                     }
-
-                    //Check if sequence exists
-
+        
                     p.Add(pulses);
                 }
+
+                //846934850 <
+                sum = p.Select(s => s.H).Sum() * p.Select(s => s.L).Sum();
             }
 
             return $"Result Part 1: {sum}";
         }
 
-        private void Process(string mod, string prevMod, Pulse pulse, Dictionary<string, IModule> modules, List<Pulse> pulses, string broadcasterItem)
-        {
-            if (broadcasterItem == mod && !string.IsNullOrEmpty(prevMod))
-                return;
-
-            pulses.Add(pulse);
-
-            var module = modules[mod];
-
-            if(module is Conjunction)
-                pulse = module.ProcessIncomingPulse((prevMod, pulse));
-            else
-                pulse = module.ProcessIncomingPulse(pulse);
-            foreach (var item in module.NextModules)
-                Process(item, mod, pulse, modules, pulses, broadcasterItem);
-        }
-
         protected override string PartTwo(object data)
         {
             int sum = 0;
-            if (data is List<string> input)
+            if (data is (string[] broadcaster, Dictionary<string, IModule> modules))
             {
 
             }
@@ -104,7 +109,7 @@ namespace AOC_2023.DayWorkers
 
     public interface IModule
     {
-        public Pulse ProcessIncomingPulse(object obj);
+        public bool ProcessIncomingPulse(object obj, out Pulse puls);
         public string[] NextModules { get; set; }
     }
 
@@ -119,8 +124,9 @@ namespace AOC_2023.DayWorkers
 
         public string[] NextModules { get; set; }
 
-        public Pulse ProcessIncomingPulse(object obj)
+        public bool ProcessIncomingPulse(object obj, out Pulse res)
         {
+            res = Pulse.Low;
             if (obj is Pulse pulse)
             {
                 if (pulse == Pulse.Low)
@@ -128,13 +134,13 @@ namespace AOC_2023.DayWorkers
                     _isOff = !_isOff;
 
                     if (_isOff)
-                        pulse = Pulse.High;
+                        res = Pulse.High;
 
-                    return pulse;
+                    return false;
                 }
             }
 
-            return (Pulse)obj;
+            return true;
         }
     }
 
@@ -156,12 +162,14 @@ namespace AOC_2023.DayWorkers
                     _incomingModules.Add(item, Pulse.Low);
         }
 
-        public Pulse ProcessIncomingPulse(object obj)
+        public bool ProcessIncomingPulse(object obj, out Pulse res)
         {
             if (obj is (string module, Pulse pulse))
                 _incomingModules[module] = pulse;
 
-            return _incomingModules.All(p => p.Value == Pulse.High) ? Pulse.Low : Pulse.High;
+            res = _incomingModules.All(p => p.Value == Pulse.High) ? Pulse.Low : Pulse.High;
+            return false;
         }
     }
 }
+
