@@ -25,15 +25,16 @@ namespace AOC_2023.DayWorkers
         protected override string PartOne(object data)
         {
             int sum = 0;
+            int sum2 = 0;
             if (data is string[][] input)
             {
                 foreach (var pattern in input)
                 {
                     var row = Compare(pattern.Select(s => s.ToList()).ToList());
 
-                    if (row > 0)
+                    if (row.HasValue)
                     {
-                        sum += 100 * row;
+                        sum += 100 * (row.Value + 1);
                         continue;
                     }
 
@@ -48,31 +49,43 @@ namespace AOC_2023.DayWorkers
                     }
 
                     var col = Compare(cols);
-                    sum += col;
+                    if(col.HasValue)
+                        sum += (col.Value + 1);
                 }
             }
 
             return $"Result Part 1: {sum}";
         }
 
-        private int Compare(List<List<char>> pattern)
+        private int? Compare(List<List<char>> pattern)
         {
-            var res = 0;
-            for (int i = 0; i < pattern.Count; i++)
+            int? res = 0;
+            for (int i = 0; i < pattern.Count - 1; i++)
             {
-                for (int j = i + 1; j < pattern.Count; j++)
+                if (pattern[i].SequenceEqual(pattern[i + 1]))
                 {
-                    if (j < 0)
-                        break;   
+                    res = i;
 
-                    if (pattern[i].SequenceEqual(pattern[j]))
+                    var temp = i - 1;
+
+                    if (i == pattern.Count - 2 || temp < 0)
+                        return res;
+
+                    for (int j = i + 2; temp >= 0 && j < pattern.Count; j++)
                     {
-                        i++;
-                        j -= 2;
+                        if (pattern[temp].SequenceEqual(pattern[j]))
+                        {
+                            if (temp == 0 || j == pattern.Count - 1)
+                                return res;
+
+                            temp--;
+                        }
+                        else
+                                break;
                     }
-                    else if (i > 0)
-                        break;
                 }
+
+                res = null;
             }
 
             return res;
@@ -83,10 +96,105 @@ namespace AOC_2023.DayWorkers
             int sum = 0;
             if (data is string[][] input)
             {
+                foreach (var pattern in input)
+                {
+                    var row = ComparePart2(pattern.Select(s => s.ToList()).ToList());
 
+                    if (row.HasValue)
+                    {
+                        sum += 100 * (row.Value + 1);
+                        continue;
+                    }
+
+                    List<List<char>> cols = new();
+                    for (int i = 0; i < pattern[0].Length; i++)
+                    {
+                        var colL = new List<char>();
+                        for (int j = 0; j < pattern.Length; j++)
+                            colL.Add(pattern[j][i]);
+
+                        cols.Add(colL);
+                    }
+
+                    var col = ComparePart2(cols);
+                    if (col.HasValue)
+                        sum += (col.Value + 1);
+                }
             }
 
             return $"Result Part 2: {sum}";
+        }
+        private int? ComparePart2(List<List<char>> pattern)
+        {
+            //res < 28843
+            int? res = 0;
+            bool changed = false;
+            for (int i = 0; i < pattern.Count - 1; i++)
+            {
+                if (pattern[i].SequenceEqual(pattern[i + 1]))
+                {
+                    res = i;
+
+                    var temp = i - 1;
+
+                    if (i == pattern.Count - 2 || temp < 0)
+                        return res;
+
+                    for (int j = i + 2; temp >= 0 && j < pattern.Count; j++)
+                    {
+                        if (pattern[temp].SequenceEqual(pattern[j]))
+                        {
+                            if (temp == 0 || j == pattern.Count - 1)
+                                return res;
+
+                            temp--;
+                        }
+                        else
+                        {
+                            if (changed)
+                                break;
+
+                            if (FindDifferences(pattern[temp], pattern[j]) > 1)
+                                break;
+
+                            pattern[temp] = pattern[j];
+                            if (temp == 0 || j == pattern.Count - 1)
+                                return res;
+                            changed = true;
+                        }
+                    }
+                }
+
+                if (changed)
+                    return null;
+
+                if (FindDifferences(pattern[i], pattern[i + 1]) > 1)
+                    continue;
+
+                pattern[i] = pattern[i + 1];
+                if (i == 0 || i + 1 == pattern.Count - 1)
+                    return res;
+                changed = true;
+
+                res = null;
+            }
+
+            return res;
+        }
+
+        private int FindDifferences(List<char> list1, List<char> list2)
+        {
+            var diffs = 0;
+            for (int i = 0; i < list1.Count; i++)
+            {
+                if (list1[i] != list2[i])
+                    diffs++;
+
+                if (diffs > 1)
+                    return diffs;
+            }
+
+            return diffs;
         }
     }
 }
