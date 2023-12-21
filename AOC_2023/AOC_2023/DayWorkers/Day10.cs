@@ -11,8 +11,7 @@ namespace AOC_2023.DayWorkers
     internal class Day10 : Day
     {
         private (int X, int Y) _start;
-        private HashSet<(int x, int y)> _loop = new HashSet<(int x, int y)>();
-        private bool[,] _visited = new bool[0,0];
+        private List<(int x, int y)> _loop = new List<(int x, int y)>();
 
         public override string Execute(string data)
         {
@@ -132,21 +131,21 @@ namespace AOC_2023.DayWorkers
 
         protected override string PartTwo(object data)
         {
-            int sum = 0;
-            if (data is List<char[]> input)
+            int sum;
+            var area = 0;
+            var j = _loop.Count - 1;
+
+            for (var i = 0; i < _loop.Count; i++)
             {
-                _visited = new bool[input.Count, input[0].Length];
-                for (int i = 0; i < input.Count; i++)
-                {
-                    for (int j = 0, loopTo = input[i].Length; j < loopTo; j++)
-                    {
-                        if (_visited[i, j])
-                            continue;
-
-
-                    }
-                }
+                area += (_loop[j].x + _loop[i].x) * (_loop[j].y - _loop[i].y);
+                j = i;
             }
+
+            area = Math.Abs(area) / 2;
+
+            //Pick's theorem //Thanks again to programing Guru
+            sum = area + 1 - _loop.Count / 2; //Somehow for input from file it's to high by 1;
+
             return $"Result Part 2: {sum}";
         }
     }

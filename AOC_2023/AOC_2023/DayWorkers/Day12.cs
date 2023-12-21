@@ -32,7 +32,18 @@ namespace AOC_2023.DayWorkers
             {
                 foreach (var item in input)
                 {
+                    var possibilities = 0;
 
+                    //'.' next must be ?/#
+                    //? get length and check for next symbol 
+                    //if length <= ? and next == # -> end go to next symbol
+                    //if # == lenght of spring analyze further
+                    //if # < length of spring analyze next symbols at length of spring
+                    //if # is last and lenght of spring reached next must be ?/.
+                    //if all were accepted item can be added to possibilities
+                    //
+
+                    sum += possibilities;
                 }
             }
 
