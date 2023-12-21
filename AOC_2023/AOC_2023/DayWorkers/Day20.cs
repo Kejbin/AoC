@@ -53,7 +53,7 @@ namespace AOC_2023.DayWorkers
                 List<(int H, int L)> p = new List<(int, int)>();
                 for (int i = 0; i < 1000; i++)
                 {
-                    (int H, int L) pulses = (0,1);
+                    (int H, int L) pulses = (0, 1);
                     Queue<(string Module, string PrevModule, Pulse Pulse)> mods = new Queue<(string, string, Pulse)>(broadcaster.Select(s => (s, "", Pulse.Low)));
                     while (mods.Count > 0)
                     {
@@ -78,7 +78,7 @@ namespace AOC_2023.DayWorkers
                         foreach (var item in module.NextModules)
                             mods.Enqueue((item, mod.Module, pulse));
                     }
-        
+
                     p.Add(pulses);
                 }
 
@@ -88,13 +88,14 @@ namespace AOC_2023.DayWorkers
 
             return $"Result Part 1: {sum}";
         }
+        
 
         protected override string PartTwo(object data)
         {
             int sum = 0;
             if (data is (string[] broadcaster, Dictionary<string, IModule> modules))
             {
-
+                //https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2F2023-day-20-input-data-plot-v0-6kko113h8h7c1.png%3Fs%3Dbb709b75c75f5799faac5a235bb4de8ed0597b51
             }
 
             return $"Result Part 2: {sum}";
