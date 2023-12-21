@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace AOC_2023.DayWorkers
@@ -127,62 +128,36 @@ namespace AOC_2023.DayWorkers
 
         private int? ComparePart2(List<List<char>> pattern)
         {
-            //res 23478
-            //23881
-            int? res = null;
-            bool changed = false;
+            int? res = 0;
+            int diff = 0;
             for (int i = 0; i < pattern.Count - 1; i++)
             {
-                if (pattern[i].SequenceEqual(pattern[i + 1]))
+                diff += FindDifferences(pattern[i], pattern[i+1]);
+                if (diff < 2)
                 {
                     res = i;
+
                     var temp = i - 1;
 
-                    if ((i == pattern.Count - 2 || temp < 0) && changed)
+                    if ((i == pattern.Count - 2 || temp < 0) && diff == 1)
                         return res;
 
                     for (int j = i + 2; temp >= 0 && j < pattern.Count; j++)
                     {
-                        if (pattern[temp].SequenceEqual(pattern[j]))
+                        diff += FindDifferences(pattern[temp],pattern[j]);
+                        if (diff < 2)
                         {
-                            if ((temp == 0 || j == pattern.Count - 1) && changed)
+                            if ((temp == 0 || j == pattern.Count - 1) && diff == 1)
                                 return res;
 
                             temp--;
                         }
                         else
-                        {
-                            if (!changed && FindDifferences(pattern[temp], pattern[j]) == 1)
-                            {
-                                pattern[temp] = pattern[j];
-                                changed = true;
-                                j--;
-                                continue;
-                            }
-                            else if(FindDifferences(pattern[temp], pattern[j]) > 1)
-                            {
-                                changed = false;
-                            }
-
                             break;
-                        }
-                    }
-                }
-                else
-                {
-                    if (!changed && FindDifferences(pattern[i], pattern[i + 1]) == 1)
-                    {
-                        pattern[i] = pattern[i + 1];
-                        changed = true;
-                        i--;
-                        continue;
-                    }
-                    else if (FindDifferences(pattern[i], pattern[i+1]) > 1)
-                    {
-                        changed = false;
                     }
                 }
 
+                diff = 0;
                 res = null;
             }
 
