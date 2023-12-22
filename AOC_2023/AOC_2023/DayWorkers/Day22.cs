@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace AOC_2023.DayWorkers;
 
@@ -43,33 +44,23 @@ internal class Day22 : Day
         }
 
         //Order by Z
-        bricks = bricks.OrderBy(b => b.Value.Last().Item3).ToDictionary();
+        bricks = bricks.OrderBy(b => b.Value.Last().Item3).ToDictionary(); //https://www.desmos.com/3d?lang=pl visualizer
 
-        return PartOne(bricks) + "\r\n" + PartTwo(input) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
+        var dependencies = MoveAndBuildStack(bricks);
+
+        return PartOne(dependencies) + "\r\n" + PartTwo(dependencies) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
     }
 
     protected override string PartOne(object data)
     {
-        //https://www.desmos.com/3d?lang=pl
         int sum = 0;
-        if (data is Dictionary<int, List<(int x, int y, int z)>> bricks)
+        if (data is Dictionary<int, (List<int> Supports, List<int> IsSupportedBy)> dependencies)
         {
-            var dependencies = MoveAndBuildStack(bricks);
-            var test = new List<KeyValuePair<int, (List<int> Supports, List<int> IsSupportedBy)>>();
-            // 469 < ? < 544
             foreach (var item in dependencies)
             {
-                if (item.Value.IsSupportedBy.Count == 0)
-                {
-                    test.Add(item);
-                    continue;
-                }
-
-                if (item.Value.Supports.Count == 0 
-                 || item.Value.Supports.All(s =>  dependencies[s].IsSupportedBy.SkipWhile(sw => sw == item.Key).Count() > 0))
+                if (item.Value.Supports.Count == 0
+                 || item.Value.Supports.All(s => dependencies[s].IsSupportedBy.SkipWhile(sw => sw == item.Key).Count() > 0))
                     sum++;
-                else
-                    test.Add(item);
             }
         }
 
@@ -142,9 +133,38 @@ internal class Day22 : Day
     protected override string PartTwo(object data)
     {
         int sum = 0;
-        if (data is List<(string Springs, List<int> DamagedSpringsNumbers)> input)
+        if (data is Dictionary<int, (List<int> Supports, List<int> IsSupportedBy)> dependencies)
         {
+            foreach (var item in dependencies)
+            {
+                var canCrash = item.Value.Supports.Where(s => dependencies[s].IsSupportedBy.SkipWhile(sw => sw == item.Key).Count() == 0);
+                if (canCrash.Count() > 0) 
+                {
+                    Queue<int> crash = new Queue<int>();
+                    HashSet<int> crashed = new HashSet<int>();
+                    crash.Enqueue(item.Key);
+                    while (crash.Count > 0)
+                    {
+                        var c = crash.Dequeue();
 
+                        foreach (var tc in dependencies[c].Supports)
+                        {
+                            var nextColapse = dependencies[tc].IsSupportedBy.SkipWhile(sw => sw == item.Key);
+                            if (!nextColapse.All(crashed.Contains))
+                                continue;
+
+                            if (crashed.Contains(tc))
+                                continue;
+
+                            crashed.Add(tc);
+                            crash.Enqueue(tc);
+                            sum++;
+                        }
+                    }
+
+                    // 1343 < ? < 154591
+                }
+            }
         }
 
         return $"Result Part 2: {sum}";
