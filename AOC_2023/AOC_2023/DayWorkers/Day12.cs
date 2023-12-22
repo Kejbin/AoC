@@ -34,6 +34,22 @@ namespace AOC_2023.DayWorkers
                 {
                     var possibilities = 0;
 
+                    for (int i = 0; i < item.Springs.Length; i++)
+                    {
+                        if (item.Springs[i] == '.' && item.Springs[i + 1] == '.')
+                            continue;
+
+                        if (item.Springs[i] == '#')
+                        {
+
+                        }
+
+                        if (item.Springs[i] == '?')
+                        {
+
+                        }
+
+                    }
                     //'.' next must be ?/#
                     //? get length and check for next symbol 
                     //if length <= ? and next == # -> end go to next symbol
