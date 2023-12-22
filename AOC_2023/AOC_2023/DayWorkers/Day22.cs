@@ -45,6 +45,10 @@ namespace AOC_2023.DayWorkers
                 bricks.Add((id, cubes));
             }
 
+            //Order by Z
+            bricks = bricks.OrderBy(b => b.Item2.Select(z => z.Item3).Min()).ToList();
+            var s = string.Join("\r\n", bricks.SelectMany(s => s.Item2));
+
             return PartOne(bricks) + "\r\n" + PartTwo(input) + "\r\n" + $"Time: {stopWatch.ElapsedMilliseconds} ms";
         }
 
@@ -67,24 +71,18 @@ namespace AOC_2023.DayWorkers
                                                                                         && c.z > cc.z)
                                                                                         && item.Id != b.Id));
 
-                    dependencies.Add((item.Id, depsUp.OrderBy(o => o.Brick.Select(z => z.z).Min()).Select(s => s.Id).ToList(), depsDown.OrderByDescending(o => o.Brick.Select(z => z.z).Min()).Select(s => s.Id).ToList()));
+                    dependencies.Add((item.Id, depsUp.Select(s => s.Id).ToList(), depsDown.Select(s => s.Id).ToList()));
                 }
 
-                //Find where the 
-                foreach (var item in dependencies)
-                {
-                    foreach (var id in item.References.ToList())
-                    {
-                        var dep = dependencies.First(f => f.Id == id);
-                        //if()
-                    }
-                }
+                //Connection builder 
 
+                //If deps down == 0 is lowest
 
                 //Caluclate blocks that could be removed
                 foreach (var item in dependencies)
                 {
                     if (!dependencies.Any(d => d.References.Contains(item.Id)))
+                        //If deps down == 0 is lowest
                         continue;
 
                     if (item.References.Count == 0)
