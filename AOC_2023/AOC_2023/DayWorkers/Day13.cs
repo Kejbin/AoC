@@ -26,7 +26,6 @@ namespace AOC_2023.DayWorkers
         protected override string PartOne(object data)
         {
             int sum = 0;
-            int sum2 = 0;
             if (data is string[][] input)
             {
                 foreach (var pattern in input)

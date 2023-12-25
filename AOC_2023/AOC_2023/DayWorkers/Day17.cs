@@ -115,6 +115,8 @@ namespace AOC_2023.DayWorkers
             Grid = grid;
         }
 
+        List<Node> ClosedList = new List<Node>();
+
         public Stack<Node> FindPath(Vector2 Start, Vector2 End)
         {
             Node start = new Node(new Vector2((int)(Start.X / Node.NODE_SIZE), (int)(Start.Y / Node.NODE_SIZE)), true);
@@ -122,7 +124,6 @@ namespace AOC_2023.DayWorkers
 
             Stack<Node> Path = new Stack<Node>();
             PriorityQueue<Node, float> OpenList = new PriorityQueue<Node, float>();
-            List<Node> ClosedList = new List<Node>();
             List<Node> adjacencies;
             Node current = start;
 
@@ -183,16 +184,22 @@ namespace AOC_2023.DayWorkers
                     return true;
 
                 //X
-                if (n.Position.X == x 
-                    && n.Parent.Position.X == x 
+                if (n.Position.X == x
+                    && n.Parent.Position.X == x
                     && n.Parent.Parent.Position.X == x)
+                {
+                    ClosedList.Add(Grid[x][y]);
                     return false;
+                }
 
                 //Y
                 if (n.Position.Y == y
                     && n.Parent.Position.Y == y
                     && n.Parent.Parent.Position.Y == y)
+                {
+                    ClosedList.Add(Grid[x][y]);
                     return false;
+                }
 
                 return true;
             }

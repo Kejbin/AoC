@@ -163,7 +163,7 @@ namespace AOC_2023.DayWorkers
         public char Category { get; set; }
         public char Operator { get; set; }
         public int Value { get; set; }
-        public string Result { get; set; }
+        public required string Result { get; set; }
     }
 
     public class Part
