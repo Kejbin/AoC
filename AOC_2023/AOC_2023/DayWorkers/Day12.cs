@@ -32,38 +32,75 @@ namespace AOC_2023.DayWorkers
             {
                 foreach (var item in input)
                 {
-                    var possibilities = 0;
+                    HashSet<string> possibilities = GetPatterns(item.Springs, item.DamagedSpringsNumbers.ToList());
 
-                    for (int i = 0; i < item.Springs.Length; i++)
-                    {
-                        if (item.Springs[i] == '.' && item.Springs[i + 1] == '.')
-                            continue;
-
-                        if (item.Springs[i] == '#')
-                        {
-
-                        }
-
-                        if (item.Springs[i] == '?')
-                        {
-
-                        }
-
-                    }
-                    //'.' next must be ?/#
-                    //? get length and check for next symbol 
-                    //if length <= ? and next == # -> end go to next symbol
-                    //if # == lenght of spring analyze further
-                    //if # < length of spring analyze next symbols at length of spring
-                    //if # is last and lenght of spring reached next must be ?/.
-                    //if all were accepted item can be added to possibilities
-                    //
-
-                    sum += possibilities;
+                    sum += possibilities.Count;
                 }
             }
 
             return $"Result Part 1: {sum}";
+        }
+
+        private HashSet<string> GetPatterns(string spring, List<int> list)
+        {
+            //'.' next must be ?/#
+            //? get length and check for next symbol 
+            //if length <= ? and next == # -> end go to next symbol
+            //if # == lenght of spring analyze further
+            //if # < length of spring analyze next symbols at length of spring
+            //if # is last and lenght of spring reached next must be ?/.
+            //if all were accepted item can be added to possibilities
+            //
+
+            var strings = new HashSet<string>();
+            var listItemIndex = 0;
+            var newString = string.Empty;
+            for (int i = 0; i < spring.Length; i++)
+            {
+                for (int j = 0; j < spring.Length; j++)
+                {
+                    if (spring[j] == '.') 
+                    {
+                        newString += spring[j];
+                        continue;
+                    }
+
+                    if(spring[j] == '#')
+                    {
+                        var s = spring.Substring(j, list[listItemIndex] + 1);
+                        if (s.Take(list[listItemIndex]).All(s => s == '#' || s == '?') )
+                        {
+
+                            listItemIndex++;
+                        }
+
+                        j += list[listItemIndex];
+                    }
+
+                    if (spring[j] == '?')
+                    {
+                        var s = spring.Substring(j, list[listItemIndex]);
+                        if (s.All(s => s == '#' || s == '?'))
+                        {
+
+                            listItemIndex++;
+                        }
+
+
+                        j += list[listItemIndex] + 1;
+                    }
+
+                    if (newString.Length == spring.Length) 
+                    {
+                        if (!strings.Contains(newString))
+                            strings.Add(newString);
+
+                        break;
+                    }
+                } 
+            }
+
+            return strings;
         }
 
         protected override string PartTwo(object data)

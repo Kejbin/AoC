@@ -2,6 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/AOC_2022/AOC_2022/.vs
 /AOC_2023/AOC_2023/obj
 /AOC_2023/.vs/AOC_2023/DesignTimeBuild
 /AOC_2023/.vs/AOC_2023/FileContentIndex
@@ -49,3 +50,22 @@
 /AOC_2022/AOC2022_5/.vs/AOC2022_5/DesignTimeBuild/.dtbcache.v2
 /AOC_2022/AOC2022_5/.vs/AOC2022_5/FileContentIndex/read.lock
 /AOC_2022/AOC2022_5/.vs/AOC2022_5/FileContentIndex/b0f2e49d-722e-413a-8776-7b35e184ca19.vsidx
+/AOC_2022/AOC_2022/.vs/AOC_2022/DesignTimeBuild/.dtbcache.v2
+/AOC_2022/AOC_2022/.vs/AOC_2022/FileContentIndex/78d96bbb-d532-4a16-86cf-2589df8d7a04.vsidx
+/AOC_2022/AOC_2022/.vs/AOC_2022/DesignTimeBuild/.dtbcache.v2
+/AOC_2022/AOC_2022/.vs/AOC_2022/v17/.futdcache.v2
+/AOC_2022/AOC_2022/.vs/AOC_2022/FileContentIndex/78d96bbb-d532-4a16-86cf-2589df8d7a04.vsidx
+/AOC_2022/AOC_2022/.vs/AOC_2022/FileContentIndex/e04078c6-efdc-4c63-9617-a7f2c895224b.vsidx
+/AOC_2022/AOC_2022/.vs/AOC_2022/FileContentIndex/read.lock
+/AOC_2022/AOC_2022/.vs/AOC_2022/v17/.suo
+/AOC_2022/AOC_2022/.vs/ProjectEvaluation/aoc_2022.projects.v5.1
+/AOC_2022/AOC_2022/.vs/ProjectEvaluation/aoc_2022.metadata.v5.1
+/AOC_2022/AOC_2022/AOC_2022/obj/Debug/net6.0/AOC_2022.AssemblyInfoInputs.cache
+/AOC_2022/AOC_2022/AOC_2022/obj/Debug/net6.0/AOC_2022.assets.cache
+/AOC_2022/AOC_2022/AOC_2022/obj/Debug/net6.0/AOC_2022.csproj.AssemblyReference.cache
+/AOC_2022/AOC_2022/AOC_2022/obj/Debug/net6.0/AOC_2022.GeneratedMSBuildEditorConfig.editorconfig
+/AOC_2022/AOC_2022/AOC_2022/obj/Debug/net6.0/apphost.exe
+/AOC_2022/AOC_2022/AOC_2022/obj/AOC_2022.csproj.nuget.g.props
+/AOC_2022/AOC_2022/AOC_2022/obj/AOC_2022.csproj.nuget.dgspec.json
+/AOC_2022/AOC_2022/AOC_2022/obj/project.assets.json
+/AOC_2022/AOC_2022/AOC_2022/obj/project.nuget.cache
