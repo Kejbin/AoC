@@ -1,4 +1,4 @@
-﻿namespace AOC_2023.DayWorkers
+﻿namespace AOC_2024.DayWorkers
 {
     public abstract class Day
     {

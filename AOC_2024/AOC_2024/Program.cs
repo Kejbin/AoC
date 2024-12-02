@@ -1,4 +1,4 @@
-﻿using AOC_2023;
+﻿using AOC_2024;
 
 Console.WriteLine("Select number of the day you wish to check:");
 var dayNumber = Console.ReadLine();

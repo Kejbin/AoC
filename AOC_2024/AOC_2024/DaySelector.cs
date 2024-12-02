@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AOC_2023.DayWorkers;
+using AOC_2024.DayWorkers;
 
-namespace AOC_2023
+namespace AOC_2024
 {
     public static class DaySelector
     {
         public static Day? GetDay(string day) => day switch
         {
             "1" => new Day1(),
-            //"2" => new Day2(),
+            "2" => new Day2(),
             //"3" => new Day3(),
             //"4" => new Day4(),
             //"5" => new Day5(),

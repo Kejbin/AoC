@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AOC_2023.DayWorkers
+namespace AOC_2024.DayWorkers
 {
     internal class Day1 : Day
     {
