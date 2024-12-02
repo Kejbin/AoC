@@ -25,7 +25,6 @@ namespace AOC_2024.DayWorkers
                 {
                     var add = true;
                     var dir = false;
-                    var lastGradual = 0;
 
                     dir = report[0] < report[1];
 
@@ -40,8 +39,6 @@ namespace AOC_2024.DayWorkers
                             add = false;
                             break;
                         }
-
-                        lastGradual = diff;
                     }
 
                     if (add)
@@ -96,7 +93,7 @@ namespace AOC_2024.DayWorkers
                         sum++;
                 }
             }
-            //293
+
             return $"Result Part 2: {sum}";
         }
 
