@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,15 +19,19 @@ namespace AOC_2024.DayWorkers
         protected override string PartOne(object data)
         {
             int sum = 0;
+            Stopwatch sw = new();
             if (data is string str)
             {
+                sw.Start();
                 var muls = GetMuls(str);
 
                 foreach (var item in muls)
                     sum += item[0] * item[1];
+
+                sw.Stop();
             }            
            
-            return $"Result Part 1: {sum}";
+            return $"Result Part 1: {sum}, Execution time (ms): {sw.ElapsedMilliseconds}";
         }
 
         private int[][] GetMuls(string str)
@@ -37,7 +42,6 @@ namespace AOC_2024.DayWorkers
                        {
                            var i = s.IndexOf(')');
                            return s.Substring(0, i);
-
                        })
                        .Select(s => s.Split(","))
                        .Where(w => 
@@ -51,15 +55,19 @@ namespace AOC_2024.DayWorkers
         protected override string PartTwo(object data)
         {
             int sum = 0;
+            Stopwatch sw = new();
             if (data is string str)
             {
+                sw.Start();
                 var muls = GetDoDontMuls(str);
 
                 foreach (var item in muls)
                     sum += item[0] * item[1];
+
+                sw.Stop();
             }
 
-            return $"Result Part 2: {sum}";
+            return $"Result Part 2: {sum}, Execution time (ms): {sw.ElapsedMilliseconds}";
         }
 
         private List<int[]> GetDoDontMuls(string str)
