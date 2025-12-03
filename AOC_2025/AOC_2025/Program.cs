@@ -6,6 +6,12 @@ if (!string.IsNullOrEmpty(dayNumber))
 {
     var day = DaySelector.GetDay(dayNumber);
 
+    if (day == null)
+    {
+        Console.WriteLine("Day not implemented yet");
+        return;
+    }
+
     var path = Path.Combine(Environment.CurrentDirectory, "DayInputs", $"Day{dayNumber}.txt");
     var data = File.ReadAllText(path);
 
