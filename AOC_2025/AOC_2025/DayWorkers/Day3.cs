@@ -57,10 +57,8 @@ namespace AOC_2025.DayWorkers
             {
                 var arr = new int[12];
                 var nextIndex = 0;
-                var previousIndex = 0;
                 for (var j = 0; j < 12; j++)
                 {
-                    previousIndex = nextIndex;
                     var maxIndex = range.Count - (12 - j);
 
                     for (var i = nextIndex; i < range.Count; i++) {
