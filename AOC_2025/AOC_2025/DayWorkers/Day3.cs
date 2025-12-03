@@ -58,11 +58,9 @@ namespace AOC_2025.DayWorkers
                 var arr = new int[12];
                 var nextIndex = 0;
                 var previousIndex = 0;
-                var availableMoves = range.Count - 12;
                 for (var j = 0; j < 12; j++)
                 {
                     previousIndex = nextIndex;
-                    var moves = availableMoves;
                     var maxIndex = range.Count - (12 - j);
 
                     for (var i = nextIndex; i < range.Count; i++) {
@@ -70,16 +68,11 @@ namespace AOC_2025.DayWorkers
                         {
                             arr[j] = range[i];
                             nextIndex = i + 1;
-
-                            if (previousIndex < i)
-                                moves = availableMoves - (i - previousIndex);
                         }
 
-                        if (moves == 0 || i == maxIndex)
+                        if ( i == maxIndex)
                             break;
                     }
-
-                    availableMoves = moves;
                 }
 
                 var temp = long.Parse(string.Join("", arr.Select(s => s.ToString())));
