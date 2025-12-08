@@ -23,48 +23,45 @@ namespace AOC_2025.DayWorkers
                             .ToArray())
                 .Select(s => new Point3D(s[0], s[1], s[2])).ToArray();
 
-            var circuts = junction3dMap.Select(s => new List<Point3D> { s }).ToList();
+            var circuts = junction3dMap.Select(s => new HashSet<Point3D> { s }).ToList();
+            var visited = new Dictionary<(Point3D, Point3D), double>();
 
-            for (int l = 1; l < 10; l++)
+            for (var i = 0; i < junction3dMap.Length; i++)
             {
-                double connection = int.MaxValue;
-                Point3D p1 = default;
-                Point3D p2 = default;
-                for (var i = 0; i < junction3dMap.Length; i++)
+                for (var j = 0; j < junction3dMap.Length; j++)
                 {
-                    for (var j = 0; j < junction3dMap.Length; j++)
-                    {
-                        if (i == j)
-                            continue;
+                    if (i == j)
+                        continue;
 
-                        var tp1 = junction3dMap[i];
-                        var tp2 = junction3dMap[j];
+                    var tp1 = junction3dMap[i];
+                    var tp2 = junction3dMap[j];
 
-                        if(circuts.Any(a => a.Contains(tp1) && a.Contains(tp2)))
-                            continue;
+                    if (visited.ContainsKey((tp1, tp2)) || visited.ContainsKey((tp2, tp1)))
+                        continue;
 
-                        var currentLength = Math.Sqrt(Math.Pow((tp2.X - tp1.X), 2) + Math.Pow((tp2.Y - tp1.Y), 2) + Math.Pow((tp2.Z - tp1.Z), 2));
-                        if (currentLength < connection)
-                        {
-                            connection = currentLength;
-                            p1 = tp1;
-                            p2 = tp2;
-                        }
-                    }
+                    var currentLength = Math.Sqrt(Math.Pow(tp2.X - tp1.X, 2) + Math.Pow(tp2.Y - tp1.Y, 2) + Math.Pow(tp2.Z - tp1.Z, 2));
+                    visited.Add((tp1, tp2), currentLength);
                 }
+            }
 
-                var c1 = circuts.FirstOrDefault(a => a.Contains(p1));
-                var c2 = circuts.FirstOrDefault(a => a.Contains(p2));
+            var s = visited.OrderBy(v => v.Value).ToList();
+
+            for (int l = 0; l < 1000; l++)
+            {
+                var point = s[l];
+
+                var c1 = circuts.FirstOrDefault(a => a.Contains(point.Key.Item1));
+                var c2 = circuts.FirstOrDefault(a => a.Contains(point.Key.Item2));
                 if (c1 is not null && c2 is not null && !c1.Equals(c2))
                 {
-                    c1.AddRange(c2.Where(c => !c1.Contains(c)));
+                    foreach (var i in c2.Where(c => !c1.Contains(c))) c1.Add(i);
                     circuts.Remove(c2);
                 }
                 else
-                    circuts.Add(new List<Point3D> { p1, p2 });
+                    circuts.Add(new HashSet<Point3D> { point.Key.Item1, point.Key.Item2 });
             }
 
-            return "Part one: " + circuts.Select(s => s.Count).OrderDescending().Take(3).Aggregate((a,b) => a * b);
+            return "Part one: " + circuts.Select(s => s.Count).OrderDescending().Take(3).Aggregate((a, b) => a * b);
         }
 
         protected override string PartTwo(object data)
@@ -72,7 +69,62 @@ namespace AOC_2025.DayWorkers
             if (data == null)
                 return "";
 
-            return "Part two: " + 0;
+
+            var junction3dMap = data.ToString()
+                .Split(Environment.NewLine)
+                .Where(s => !string.IsNullOrEmpty(s))
+                .Select(s => s.Split(',')
+                            .Select(ss => int.Parse(ss))
+                            .ToArray())
+                .Select(s => new Point3D(s[0], s[1], s[2])).ToArray();
+
+            var circuts = junction3dMap.Select(s => new HashSet<Point3D> { s }).ToList();
+            var visited = new Dictionary<(Point3D, Point3D), double>();
+
+            for (var i = 0; i < junction3dMap.Length; i++)
+            {
+                for (var j = 0; j < junction3dMap.Length; j++)
+                {
+                    if (i == j)
+                        continue;
+
+                    var tp1 = junction3dMap[i];
+                    var tp2 = junction3dMap[j];
+
+                    if (visited.ContainsKey((tp1, tp2)) || visited.ContainsKey((tp2, tp1)))
+                        continue;
+
+                    var currentLength = Math.Sqrt(Math.Pow(tp2.X - tp1.X, 2) + Math.Pow(tp2.Y - tp1.Y, 2) + Math.Pow(tp2.Z - tp1.Z, 2));
+                    visited.Add((tp1, tp2), currentLength);
+                }
+            }
+
+            var s = visited.OrderBy(v => v.Value).ToList();
+            var result = 0UL;
+            for (int l = 0; l < s.Count; l++)
+            {
+                var point = s[l];
+
+                var c1 = circuts.FirstOrDefault(a => a.Contains(point.Key.Item1));
+                var c2 = circuts.FirstOrDefault(a => a.Contains(point.Key.Item2));
+                if (c1 is not null && c2 is not null && !c1.Equals(c2))
+                {
+                    foreach (var i in c2.Where(c => !c1.Contains(c))) c1.Add(i);
+                    circuts.Remove(c2);
+                }
+                else if (c1.Equals(c2))
+                    continue;
+                else
+                    circuts.Add(new HashSet<Point3D> { point.Key.Item1, point.Key.Item2 });
+
+                if (circuts.Count == 1)
+                {
+                    result = Convert.ToUInt64(point.Key.Item1.X) * Convert.ToUInt64(point.Key.Item2.X);
+                    break;
+                }
+            }
+
+            return "Part two: " + result;
         }
 
         struct Point3D
