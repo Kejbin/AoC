@@ -123,7 +123,7 @@ namespace AOC_2025.DayWorkers
                                 double xIntersection = double.IsNaN(v) ? p1[0] : v + p1[0];
 
                                 // Check if the point is on the same line as the edge or to the left of the x-intersection
-                                if (p1[0] == p2[0] || x <= xIntersection)
+                                if ((p1[0] == p2[0] || x <= xIntersection) && p1[0] != Math.Min(pp1[0], pp2[0])) //checking intersections for some points
                                 {
                                     // Flip the inside flag
                                     inside = !inside;
